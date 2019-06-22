@@ -13,6 +13,6 @@ export default {
 <style scoped lang="sass">
 .area
     background-color: green
-    width: 100%
+    width: 70%
     margin: 0 10px
 </style>
