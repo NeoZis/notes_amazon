@@ -1,17 +1,20 @@
 <template>
-    <div class="navigation">
+    <div class="navigation overflow-auto">
         <ul>
-            <li>Первая заметка</li>
-            <li>Вторая заметка</li>
-            <li>Третья заметка</li>
-            <li>Четвертая заметка</li>
+            <li v-for="post in posts" :key="post.id">
+                {{post.title}}
+            </li>
         </ul>
     </div>
 </template>
 
 <script>
-export default {
+import {mapState} from "vuex"
 
+export default {
+    computed: mapState([
+        "posts"
+    ])
 }
 </script>
 
@@ -20,6 +23,7 @@ export default {
     background-color: yellow
     width: 30%
     margin: 0 10px
+    height: 550px;
 li
     padding-top: 10px
 </style>
