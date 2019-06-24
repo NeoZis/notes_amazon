@@ -1,9 +1,6 @@
 import axios from "axios";
 
 export const state = () => ({
-    posts: [
-        {id: 0, title: 'Hello world!'}   
-    ]
 })
 export const mutations = {
     setPosts(state, posts){
@@ -17,4 +14,5 @@ export const actions = {
 
         commit("setPosts", posts)
     }
+    
 }
