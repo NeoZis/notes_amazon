@@ -12,9 +12,28 @@
     </div>
     <div class="area">
       <div>
-        <h2>{{elem.name}}</h2>
-        <p>{{elem.descript}}</p>
+        <input type="text"
+         v-if="show"
+         :value = elem.name>
+        <input type="text"
+         v-if="show"
+         :value = elem.descript>
+         <div v-else>
+            <h2>{{elem.name}}</h2>
+            <p>{{elem.descript}}</p>
+         </div>
       </div>
+       <button
+        type="button"
+        class="btn btn-success"
+        v-if = "show"
+        @click = "show = false">Success</button>
+      <button
+       type = "button"
+       class = "btn btn-warning"
+       v-if = "(elem.name !== null)"
+       v-show = "!show"
+       @click = "show = true">Edit</button>
     </div>
   </div>
 </template>
@@ -26,9 +45,11 @@ export default {
     data () {
       return {
         elem: {
-          name: '',
-          descript: ''
-        }
+          name: null,
+          tags: null,
+          descript: null
+        },
+        show: false
       }
     },
     computed: mapState([
@@ -53,8 +74,10 @@ li
     padding: 20px
     color: white
 .index
-    display: flex;
-    justify-content: flex-start;
-    min-height: 500px;
-
+    display: flex
+    justify-content: flex-start
+    min-height: 500px
+input
+  margin-bottom: 10px
+  row: 30
 </style>
