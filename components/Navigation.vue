@@ -3,10 +3,10 @@
     <div class="navigation overflow-auto">
       <ul>
         <li
-         v-for="post in posts"
-         :key="post.id"
-         @click="onClick(post)">
-          {{post.title}}
+         v-for="note in notes.notes"
+         :key="note.id"
+         @click="onClick(note)">
+          {{note.name}}
         </li>
       </ul>
     </div>
@@ -29,7 +29,7 @@
         type="button"
         class="btn btn-success"
         v-if = "show"
-        @click ="onSave(elem.id, elem.name)">Success</button>
+        @click ="onSave(elem.id, elem.name, elem.descript)">Success</button>
         <button
         type="button"
         class="btn btn-danger"
@@ -61,18 +61,19 @@ export default {
       }
     },
     computed: mapState([
-        "posts"
+        "notes"
     ]),
     methods: {
-      onSave(idPost, namePost) {
+      onSave(idNote, nameNote, descriptNote) {
         this.show = false;
-        this.$store.dispatch('saveNewPosts', {id: idPost, name: namePost})
+        this.$store.dispatch('saveNote', {id: idNote, name: nameNote, descript: descriptNote})
+        this.$store.dispatch('postNote')
       },
-      onClick(post) {
+      onClick(note) {
         if (!this.show){
-        this.elem.name = post.title;
-        this.elem.descript = post.body;
-        this.elem.id = post.id
+        this.elem.name = note.name;
+        this.elem.descript = note.descript;
+        this.elem.id = note.id
         }
       }
     }
