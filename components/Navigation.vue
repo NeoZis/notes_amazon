@@ -5,7 +5,7 @@
         <li
          v-for="post in posts"
          :key="post.id"
-         @click="elem.name = post.title, elem.descript = post.body">
+         @click="onClick(post)">
           {{post.title}}
         </li>
       </ul>
@@ -13,11 +13,13 @@
     <div class="area">
       <div>
         <input type="text"
+         class="input-title"
          v-if="show"
-         :value = elem.name>
+         v-model="elem.name">
         <input type="text"
+         class="input-body"
          v-if="show"
-         :value = elem.descript>
+         v-model ="elem.descript">
          <div v-else>
             <h2>{{elem.name}}</h2>
             <p>{{elem.descript}}</p>
@@ -27,11 +29,16 @@
         type="button"
         class="btn btn-success"
         v-if = "show"
-        @click = "show = false">Success</button>
+        @click ="onSave(elem.id, elem.name)">Success</button>
+        <button
+        type="button"
+        class="btn btn-danger"
+        v-if = "show"
+        @click = "show = false">Cancel</button>
       <button
        type = "button"
        class = "btn btn-warning"
-       v-if = "(elem.name !== null)"
+       v-if = "(elem.name != null)"
        v-show = "!show"
        @click = "show = true">Edit</button>
     </div>
@@ -45,6 +52,7 @@ export default {
     data () {
       return {
         elem: {
+          id: null,
           name: null,
           tags: null,
           descript: null
@@ -54,8 +62,20 @@ export default {
     },
     computed: mapState([
         "posts"
-    ])
-
+    ]),
+    methods: {
+      onSave(idPost, namePost) {
+        this.show = false;
+        this.$store.dispatch('saveNewPosts', {id: idPost, name: namePost})
+      },
+      onClick(post) {
+        if (!this.show){
+        this.elem.name = post.title;
+        this.elem.descript = post.body;
+        this.elem.id = post.id
+        }
+      }
+    }
 }
 </script>
 
@@ -77,7 +97,8 @@ li
     display: flex
     justify-content: flex-start
     min-height: 500px
-input
+.input-title
   margin-bottom: 10px
-  row: 30
+button
+  margin: 10px
 </style>
