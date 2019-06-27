@@ -23,13 +23,14 @@
          <div v-else>
             <h2>{{elem.name}}</h2>
             <p>{{elem.descript}}</p>
+            
          </div>
       </div>
        <button
         type="button"
         class="btn btn-success"
         v-if = "show"
-        @click ="onSave(elem.id, elem.name, elem.descript)">Success</button>
+        @click ="onSave(elem.id, elem.name, elem.descript, notes.notes)">Success</button>
         <button
         type="button"
         class="btn btn-danger"
@@ -54,20 +55,21 @@ export default {
         elem: {
           id: null,
           name: null,
-          tags: null,
           descript: null
         },
-        show: false
+        show: false,
       }
     },
     computed: mapState([
         "notes"
     ]),
     methods: {
-      onSave(idNote, nameNote, descriptNote) {
+      onSave(idNote, nameNote, descriptNote, notes_obj) {
         this.show = false;
-        this.$store.dispatch('saveNote', {id: idNote, name: nameNote, descript: descriptNote})
-        this.$store.dispatch('postNote')
+        this.$store.dispatch('saveNote', {id: idNote, name: nameNote, descript: descriptNote});
+        this.$store.dispatch('postNote', notes_obj)
+      },
+      test(notes_obj){
       },
       onClick(note) {
         if (!this.show){

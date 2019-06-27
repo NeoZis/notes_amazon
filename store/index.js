@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const state = () => ({
-    notes: null
+    notes: ''
 })
 export const mutations = {
     setNotes(state, notes){
@@ -17,15 +17,22 @@ export const mutations = {
 }}
 export const actions = {
     async nuxtServerInit({ commit }){
-        const response = await axios.get("https://script.googleusercontent.com/macros/echo?user_content_key=6GMFT_JiyKKsQpGu5NjK5cImYx8cDTOZQeBVRqNWk6MuoUlPAslrrCsZuGE-x-owfhuoU8NRWc7D4SLWFhedId5KRlGKAHWsm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnFdZZ29CQLBfofnHh8HHBeY8_1nx0sebpZXsmteNIooadMBb0nFQmVAYZpTak_o22Q&lib=MS549O9bRAKIfbsIEYldXoN8gpBRMjswI")
+        const response = await axios.get("https://script.google.com/macros/s/AKfycbwyaj--oDaTwwWk35EyvFcrRedCS07E9YVwTUql/exec")
         const notes = response.data
 
         commit("setNotes", notes)
     },
-    async postNote(){
-        axios.post("http://httpbin.org/post",
-        {notes}).then(function (responce){
-            console.log(responce);
+    async postNote(obj){
+        await axios.post("https://script.google.com/macros/s/AKfycbwyaj--oDaTwwWk35EyvFcrRedCS07E9YVwTUql/exec",
+        obj.state.notes,{
+            headers: {
+                'Content-Type': 'text/plain'
+            }
+        })
+        .then(function (responce){
+            console.log("answer"+responce);
+        }).catch(function (error) {
+            console.log(error);
         })
     },
     saveNote({commit}, editNote) {

@@ -2,7 +2,7 @@
   <div>
 <header>
 <div class="title">
-  <h1 class="font-weight-bold">Notes Amazon</h1>
+  <h1 class="font-weight-bold">Notes GS</h1>
   </div>  
   <div class="search">
     <b-navbar-nav class="ml-auto">
