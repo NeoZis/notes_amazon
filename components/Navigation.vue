@@ -12,7 +12,7 @@
     </div>
     <div class="area">
       <div class="info-text"
-       v-if = "(!show_createForm)"
+       v-if = "(elem.id == null)&(!show_createForm)"
        >
         <div class="addNote"
          @click="onAdd">
