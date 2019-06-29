@@ -11,6 +11,9 @@
       </ul>
     </div>
     <div class="area">
+      <div class="close-window" v-if="elem.id!=null">
+        <p @click="onClose">Закрыть заметку</p>
+      </div>
       <div class="info-text"
        v-if = "(elem.id == null)&(!show_createForm)"
        >
@@ -106,6 +109,11 @@ export default {
       },
       onDelete (id) {
         this.$store.dispatch('deleteNote', id)
+      },
+      onClose () {
+        this.elem.id = null;
+        this.elem.name = null;
+        this.elem.descript = null;
       }
     }
 }
@@ -151,4 +159,6 @@ button
 .addNote
   width: 100px
   height: 100px
+.close-window
+  text-align: right
 </style>
