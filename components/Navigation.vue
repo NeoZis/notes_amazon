@@ -11,11 +11,11 @@
       </ul>
     </div>
     <div class="area">
-      <div class="close-window" v-if="elem.id!=null">
+      <div class="close-window" v-if="show">
         <p @click="onClose">Закрыть заметку</p>
       </div>
       <div class="info-text"
-       v-if = "(elem.id == null)&(!show_createForm)"
+       v-if = "(!show)&&(!show_createForm)&&(!show_editForm)"
        >
         <div class="addNote"
          @click="onAdd">
@@ -36,13 +36,13 @@
          v-model="elem.descript">
         <input type="text"
          class="input-title"
-         v-if="show"
+         v-if="show_editForm"
          v-model="elem.name">
         <input type="text"
          class="input-title text-body"
-         v-if="show"
+         v-if="show_editForm"
          v-model ="elem.descript">
-         <div v-else>
+         <div v-if="show">
             <h2>{{elem.name}}</h2>
             <p>{{elem.descript}}</p>
          </div>
@@ -50,24 +50,28 @@
        <button
         type="button"
         class="btn btn-success"
-        v-if = "show||show_createForm"
+        v-if = "show_editForm||show_createForm"
         @click ="onSave(elem.id, elem.name, elem.descript, notes.notes)">Save</button>
         <button
         type="button"
         class="btn btn-danger"
-        v-if = "show||show_createForm"
-        @click = "(show = false)&(show_createForm = false)">Cancel</button>
+        v-if = "show_editForm"
+        @click = "show = true, show_editForm = false">Cancel</button>
+        <button
+        type="button"
+        class="btn btn-danger"
+        v-if = "show_createForm"
+        @click = "show = false, show_createForm = false">Cancel</button>
       <button
        type = "button"
        class = "btn btn-warning"
-       v-if = "(elem.name != null)"
-       v-show = "!show"
-       @click = "show = true">Edit</button>
+       v-if = "show"
+       @click = "show_editForm = true, show = false">Edit</button>
       <button
        type = "button"
        class = "btn btn-danger"
        v-if = "(elem.name != null)"
-       v-show = "!show"
+       v-show = "show"
        @click ="onDelete(elem.id)">Delete</button>
     </div>
   </div>
@@ -85,7 +89,8 @@ export default {
           descript: null
         },
         show: false,
-        show_createForm: false
+        show_createForm: false,
+        show_editForm: false
       }
     },
     computed: mapState([
@@ -93,7 +98,9 @@ export default {
     ]),
     methods: {
       onSave(idNote, nameNote, descriptNote, notes_obj) {
-        this.show = false;
+        this.show = true;
+        this.show_editForm = false;
+        this.show_createForm = false;
         this.$store.dispatch('saveNote', {id: idNote, name: nameNote, descript: descriptNote});
         this.$store.dispatch('postNote', notes_obj)
       },
@@ -101,16 +108,18 @@ export default {
         this.show_createForm = true
       },
       onClick(note) {
-        if ((!this.show)&&(!this.show_createForm)){
+        this.show = true;
+        // if ((!this.show)&&(!this.show_createForm)){
         this.elem.name = note.name;
         this.elem.descript = note.descript;
         this.elem.id = note.id
-        }
+        // }
       },
       onDelete (id) {
         this.$store.dispatch('deleteNote', id)
       },
       onClose () {
+        this.show = false;
         this.elem.id = null;
         this.elem.name = null;
         this.elem.descript = null;

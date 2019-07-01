@@ -9,7 +9,7 @@ export const mutations = {
     },
     SAVE_NOTE(state, editNote){
         if (editNote.id == null) {
-            editNote.id == state.notes.notes.length;
+            editNote.id = state.notes.notes.length+1;
             state.notes.notes.push(editNote);
         } else {
             state.notes.notes = state.notes.notes.map(note => {
