@@ -23,6 +23,12 @@ export default {
     saveNote({commit}, editNote) {
         commit('SAVE_NOTE', editNote)
     },
+    onClick({commit}, data) {
+        commit('ON_CLICK', data)
+    },
+    showChange({commit}, changes){
+        commit('SHOW_CHANGE', changes)
+    }
     // deleteNote({commit}, id) {
     //     commit('DELETE_NOTE', id)
     // }
